@@ -103,6 +103,7 @@ describe('when the user does a search', () => {
     expect(updatedAt).toHaveTextContent(/updated at/i)
   })
 
+  // test table cells
   it('each table result must contain: owner avatar image, name, stars, updated at, forks, open issues, updated at, it should have a link that opens in a new tab', async () => {
     // event
     fireClickSearch()
@@ -139,6 +140,7 @@ describe('when the user does a search', () => {
     )
   })
 
+  // test total results
   it('must display the total results number of the search and the current number of results', async () => {
     // event
     fireClickSearch()
@@ -146,6 +148,35 @@ describe('when the user does a search', () => {
     // find matchers returns a promise that waits for the table to be displayed
     await screen.findByRole('table')
 
+    // total results
     expect(screen.getByText(/1-1 of 1/i)).toBeInTheDocument()
+  })
+
+  it('results size per page select/combobox with the options: 30, 50, 100. The default is 30', async () => {
+    // event
+    fireClickSearch()
+
+    // find matchers returns a promise that waits for the table to be displayed
+    await screen.findByRole('table')
+
+    // select
+    expect(screen.getByLabelText(/rows per page/i)).toBeInTheDocument()
+
+    // event (open select collapsable)
+    fireEvent.mouseDown(screen.getByLabelText(/rows per page/i))
+
+    // options array
+    const listbox = screen.getByRole('listbox', {name: /rows per page/i})
+
+    // within applies a query inside listbox node
+    const options = within(listbox).getAllByRole('option')
+
+    // options destructuring
+    const [option30, option50, option100] = options
+
+    // options
+    expect(option30).toHaveTextContent(/30/)
+    expect(option50).toHaveTextContent(/50/)
+    expect(option100).toHaveTextContent(/100/)
   })
 })
