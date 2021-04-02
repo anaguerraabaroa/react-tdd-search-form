@@ -22,7 +22,7 @@ const tableHeaders = [
 ]
 
 // render content: initial message or table
-export const Content = ({isSearchApplied}) =>
+export const Content = ({isSearchApplied, reposList}) =>
   isSearchApplied ? (
     <>
       <TableContainer>
@@ -35,16 +35,29 @@ export const Content = ({isSearchApplied}) =>
             </TableRow>
           </TableHead>
           <TableBody>
-            <TableRow>
-              <TableCell>
-                <Avatar alt="test" src="/logo192.png" />
-                <Link href="http://localhost:3000/test">Test</Link>
-              </TableCell>
-              <TableCell>10</TableCell>
-              <TableCell>5</TableCell>
-              <TableCell>2</TableCell>
-              <TableCell>2021-04-02</TableCell>
-            </TableRow>
+            {reposList.map(
+              ({
+                name,
+                id,
+                stargazers_count: stargazersCount,
+                forks_count: forksCount,
+                open_issues_count: openIssuesCount,
+                updated_at: updatedAt,
+                html_url: htmlUrl,
+                owner: avatarUrl,
+              }) => (
+                <TableRow key={id}>
+                  <TableCell>
+                    <Avatar alt={name} src={avatarUrl} />
+                    <Link href={htmlUrl}>{name}</Link>
+                  </TableCell>
+                  <TableCell>{stargazersCount}</TableCell>
+                  <TableCell>{forksCount}</TableCell>
+                  <TableCell>{openIssuesCount}</TableCell>
+                  <TableCell>{updatedAt}</TableCell>
+                </TableRow>
+              ),
+            )}
           </TableBody>
         </Table>
       </TableContainer>
@@ -75,4 +88,5 @@ export default Content
 
 Content.propTypes = {
   isSearchApplied: PropTypes.bool.isRequired,
+  reposList: PropTypes.arrayOf(PropTypes.object).isRequired,
 }

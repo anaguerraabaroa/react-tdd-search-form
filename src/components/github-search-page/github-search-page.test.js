@@ -102,7 +102,7 @@ describe('when the developer does a search', () => {
   })
 
   // test table
-  it('the data should be displayed as a sticky table', async () => {
+  it.only('the data should be displayed as a sticky table', async () => {
     // event
     fireClickSearch()
 
@@ -160,23 +160,27 @@ describe('when the developer does a search', () => {
     const [repository, stars, forks, openIssues, updatedAt] = tableCells
 
     // owner avatar image
-    expect(within(repository).getByRole('img', {name: /test/i}))
+    const avatarImg = within(repository).getByRole('img', {name: fakeRepo.name})
+    expect(avatarImg).toBeInTheDocument()
 
     // tableCells must return an array with 5 elements
     expect(tableCells).toHaveLength(5)
 
     // array elements
-    expect(repository).toHaveTextContent(/test/i)
-    expect(stars).toHaveTextContent(/10/i)
-    expect(forks).toHaveTextContent(/5/i)
-    expect(openIssues).toHaveTextContent(/2/i)
-    expect(updatedAt).toHaveTextContent(/2021-04-02/i)
+    expect(repository).toHaveTextContent(fakeRepo.name)
+    expect(stars).toHaveTextContent(fakeRepo.stargazers_count)
+    expect(forks).toHaveTextContent(fakeRepo.forks_count)
+    expect(openIssues).toHaveTextContent(fakeRepo.open_issues_count)
+    expect(updatedAt).toHaveTextContent(fakeRepo.updated_at)
 
     // repository link
-    expect(withinTable.getByText(/test/i).closest('a')).toHaveAttribute(
+    expect(withinTable.getByText(fakeRepo.name).closest('a')).toHaveAttribute(
       'href',
-      'http://localhost:3000/test',
+      fakeRepo.html_url,
     )
+
+    // avatar image
+    expect(avatarImg).toHaveAttribute('src', fakeRepo.owner_avatar_url)
   })
 
   // test total results

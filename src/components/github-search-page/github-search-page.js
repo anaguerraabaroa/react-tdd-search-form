@@ -12,6 +12,7 @@ export const GithubSearchPage = () => {
   // state
   const [isSearching, setIsSearching] = useState(false)
   const [isSearchApplied, setIsSearchApplied] = useState(false)
+  const [reposList, setReposList] = useState([])
 
   // event click handler
   const handleClick = async () => {
@@ -19,7 +20,13 @@ export const GithubSearchPage = () => {
     setIsSearching(true)
 
     // once the promise is resolved, the button is enabled again and table is displayed
-    await Promise.resolve()
+    const response = await fetch(
+      '/search/repositories?q=react+language:python&page=2&per_page=50',
+    )
+
+    const data = await response.json()
+
+    setReposList(data.items)
     setIsSearchApplied(true)
     setIsSearching(false)
   }
@@ -51,7 +58,7 @@ export const GithubSearchPage = () => {
       </Grid>
 
       <Box my={4}>
-        <Content isSearchApplied={isSearchApplied} />
+        <Content isSearchApplied={isSearchApplied} reposList={reposList} />
       </Box>
     </Container>
   )
