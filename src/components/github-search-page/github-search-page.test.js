@@ -38,7 +38,6 @@ describe('when the user does a search', () => {
   // test disabled search button
   it('the search button should be disabled until the search is done', async () => {
     const button = screen.getByRole('button', {name: /search/i})
-
     // before the event the button should not be disabled
     expect(button).not.toBeDisabled()
 
@@ -50,5 +49,23 @@ describe('when the user does a search', () => {
 
     // once the search is done the button should not be disabled
     await waitFor(() => expect(button).not.toBeDisabled())
+  })
+
+  // test sticky table
+  it('the data should be displayed as a sticky table', async () => {
+    // event
+    fireEvent.click(screen.getByRole('button', {name: /search/i}))
+
+    // after the event, the initial message should not be displayed
+    await waitFor(() =>
+      expect(
+        screen.queryByText(
+          /please provide a search option and click in the search button/i,
+        ),
+      ).not.toBeDisabled(),
+    )
+
+    // after the event, a table should be displayed
+    expect(screen.getByRole('table')).toBeInTheDocument()
   })
 })

@@ -9,12 +9,16 @@ import Box from '@material-ui/core/Box'
 export const GithubSearchPage = () => {
   // state
   const [isSearching, setIsSearching] = useState(false)
+  const [isSearchApplied, setIsSearchApplied] = useState(false)
 
   // event click handler
-  // when button receives the event, an API request is sent (async)
   const handleClick = async () => {
+    // when button receives the event, an API request is sent (async) and the button is disabled
     setIsSearching(true)
+
+    // once the promise is resolved, the button is enabled again
     await Promise.resolve()
+    setIsSearchApplied(true)
     setIsSearching(false)
   }
 
@@ -42,16 +46,20 @@ export const GithubSearchPage = () => {
         </Grid>
       </Grid>
 
-      <Box
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-        height={400}
-      >
-        <Typography>
-          Please provide a search option and click in the search button
-        </Typography>
-      </Box>
+      {isSearchApplied ? (
+        <table></table>
+      ) : (
+        <Box
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          height={400}
+        >
+          <Typography>
+            Please provide a search option and click in the search button
+          </Typography>
+        </Box>
+      )}
     </Container>
   )
 }
