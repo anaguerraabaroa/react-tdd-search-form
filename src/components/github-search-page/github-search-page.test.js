@@ -51,6 +51,10 @@ afterAll(() => server.close())
 // render the component before each test
 beforeEach(() => render(<GithubSearchPage />))
 
+// event variable
+const fireClickSearch = () =>
+  fireEvent.click(screen.getByRole('button', {name: /search/i}))
+
 describe('when the GithubSearchPage is mounted', () => {
   // test page title
   it('must display the title', () => {
@@ -80,10 +84,6 @@ describe('when the GithubSearchPage is mounted', () => {
 })
 
 describe('when the developer does a search', () => {
-  // event variable
-  const fireClickSearch = () =>
-    fireEvent.click(screen.getByRole('button', {name: /search/i}))
-
   // test disabled search button
   it('the search button should be disabled until the search is done', async () => {
     // before the event the button should not be disabled
@@ -102,7 +102,7 @@ describe('when the developer does a search', () => {
   })
 
   // test table
-  it.only('the data should be displayed as a sticky table', async () => {
+  it('the data should be displayed as a sticky table', async () => {
     // event
     fireClickSearch()
 
@@ -112,7 +112,7 @@ describe('when the developer does a search', () => {
         screen.queryByText(
           /please provide a search option and click in the search button/i,
         ),
-      ).not.toBeDisabled(),
+      ).not.toBeInTheDocument(),
     )
 
     // after the event, a table should be displayed
@@ -247,6 +247,34 @@ describe('when the developer does a search', () => {
 })
 
 describe('when the developer does a search without results', () => {
-  // test not found search results
-  it('must display an empty state message', () => {})
+  // test results not found
+  it('must display an empty state message: "Your search has no results', async () => {
+    // set the mock server results not found
+    server.use(
+      rest.get('/search/repositories', (req, res, ctx) =>
+        res(
+          ctx.status(200),
+          ctx.json({
+            total_count: 0,
+            incomplete_results: false,
+            items: [],
+          }),
+        ),
+      ),
+    )
+    // event
+    fireClickSearch()
+
+    // expect not table
+    await waitFor(() =>
+      expect(
+        screen.getByText(/your search has no results/i),
+      ).toBeInTheDocument(),
+    )
+
+    // expect not results
+
+    // expect not table
+    expect(screen.queryByRole('table')).not.toBeInTheDocument()
+  })
 })
