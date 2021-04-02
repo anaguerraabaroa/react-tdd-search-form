@@ -103,7 +103,7 @@ describe('when the user does a search', () => {
     expect(updatedAt).toHaveTextContent(/updated at/i)
   })
 
-  it('each table result must contain: repository, stars, forks, open issues, updated at', async () => {
+  it('each table result must contain: owner avatar image, name, stars, forks, open issues, updated at', async () => {
     // event
     fireClickSearch()
 
@@ -111,7 +111,13 @@ describe('when the user does a search', () => {
     const table = await screen.findByRole('table')
 
     // within applies a query inside table node
-    const tableCells = within(table).getAllByRole('cell')
+    const withinTable = within(table)
+
+    // table cells
+    const tableCells = withinTable.getAllByRole('cell')
+
+    // owner avatar image
+    expect(withinTable.getByRole('img', {name: /test/i}))
 
     // tableCells must return an array with 5 elements
     expect(tableCells).toHaveLength(5)
