@@ -138,4 +138,14 @@ describe('when the user does a search', () => {
       'http://localhost:3000/test',
     )
   })
+
+  it('must display the total results number of the search and the current number of results', async () => {
+    // event
+    fireClickSearch()
+
+    // find matchers returns a promise that waits for the table to be displayed
+    await screen.findByRole('table')
+
+    expect(screen.getByText(/1-1 of 1/i)).toBeInTheDocument()
+  })
 })

@@ -10,35 +10,54 @@ import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import Avatar from '@material-ui/core/Avatar'
 import Link from '@material-ui/core/Link'
+import TablePagination from '@material-ui/core/TablePagination'
+
+// tableHeaders array
+const tableHeaders = [
+  'Repository',
+  'Stars',
+  'Forks',
+  'Open issues',
+  'Updated at',
+]
 
 // render content: initial message or table
 export const Content = ({isSearchApplied}) =>
   isSearchApplied ? (
-    <TableContainer>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>Repository</TableCell>
-            <TableCell>Stars</TableCell>
-            <TableCell>Forks</TableCell>
-            <TableCell>Open issues</TableCell>
-            <TableCell>Updated at</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          <TableRow>
-            <TableCell>
-              <Avatar alt="test" src="/logo192.png" />
-              <Link href="http://localhost:3000/test">Test</Link>
-            </TableCell>
-            <TableCell>10</TableCell>
-            <TableCell>5</TableCell>
-            <TableCell>2</TableCell>
-            <TableCell>2021-04-02</TableCell>
-          </TableRow>
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <>
+      <TableContainer>
+        <Table>
+          <TableHead>
+            <TableRow>
+              {tableHeaders.map(header => (
+                <TableCell key={header}>{header}</TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            <TableRow>
+              <TableCell>
+                <Avatar alt="test" src="/logo192.png" />
+                <Link href="http://localhost:3000/test">Test</Link>
+              </TableCell>
+              <TableCell>10</TableCell>
+              <TableCell>5</TableCell>
+              <TableCell>2</TableCell>
+              <TableCell>2021-04-02</TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <TablePagination
+        rowsPerPageOptions={[10, 25, 100]}
+        component="div"
+        count={1}
+        rowsPerPage={10}
+        page={0}
+        onChangePage={() => {}}
+        onChangeRowsPerPage={() => {}}
+      />
+    </>
   ) : (
     <Box
       display="flex"
