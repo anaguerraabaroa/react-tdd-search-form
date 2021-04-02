@@ -102,4 +102,26 @@ describe('when the user does a search', () => {
     expect(openIssues).toHaveTextContent(/open issues/i)
     expect(updatedAt).toHaveTextContent(/updated at/i)
   })
+
+  it('each table result must contain: repository, stars, forks, open issues, updated at', async () => {
+    // event
+    fireClickSearch()
+
+    // find matchers returns a promise that waits for the table to be displayed
+    const table = await screen.findByRole('table')
+
+    // within applies a query inside table node
+    const tableCells = within(table).getAllByRole('cell')
+
+    // tableCells must return an array with 5 elements
+    expect(tableCells).toHaveLength(5)
+
+    // tableCells
+    const [repository, stars, forks, openIssues, updatedAt] = tableCells
+    expect(repository).toHaveTextContent(/test/i)
+    expect(stars).toHaveTextContent(/10/i)
+    expect(forks).toHaveTextContent(/5/i)
+    expect(openIssues).toHaveTextContent(/2/i)
+    expect(updatedAt).toHaveTextContent(/2021-04-02/i)
+  })
 })

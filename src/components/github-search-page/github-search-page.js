@@ -13,10 +13,10 @@ export const GithubSearchPage = () => {
 
   // event click handler
   const handleClick = async () => {
-    // when button receives the event, an API request is sent (async) and the button is disabled
+    // when button receives the event, an API request is sent and the button is disabled
     setIsSearching(true)
 
-    // once the promise is resolved, the button is enabled again
+    // once the promise is resolved, the button is enabled again and table is displayed
     await Promise.resolve()
     setIsSearchApplied(true)
     setIsSearching(false)
@@ -35,6 +35,15 @@ export const GithubSearchPage = () => {
             <th>Updated at</th>
           </tr>
         </thead>
+        <tbody>
+          <tr>
+            <td>Test</td>
+            <td>10</td>
+            <td>5</td>
+            <td>2</td>
+            <td>2021-04-02</td>
+          </tr>
+        </tbody>
       </table>
     ) : (
       <Box
