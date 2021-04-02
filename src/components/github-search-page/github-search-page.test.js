@@ -103,7 +103,7 @@ describe('when the user does a search', () => {
     expect(updatedAt).toHaveTextContent(/updated at/i)
   })
 
-  it('each table result must contain: owner avatar image, name, stars, forks, open issues, updated at', async () => {
+  it('each table result must contain: owner avatar image, name, stars, updated at, forks, open issues, updated at, it should have a link that opens in a new tab', async () => {
     // event
     fireClickSearch()
 
@@ -113,21 +113,29 @@ describe('when the user does a search', () => {
     // within applies a query inside table node
     const withinTable = within(table)
 
-    // table cells
+    // get tableCells
     const tableCells = withinTable.getAllByRole('cell')
 
+    // tableCells array
+    const [repository, stars, forks, openIssues, updatedAt] = tableCells
+
     // owner avatar image
-    expect(withinTable.getByRole('img', {name: /test/i}))
+    expect(within(tableCells[0]).getByRole('img', {name: /test/i}))
 
     // tableCells must return an array with 5 elements
     expect(tableCells).toHaveLength(5)
 
-    // tableCells
-    const [repository, stars, forks, openIssues, updatedAt] = tableCells
+    // array elements
     expect(repository).toHaveTextContent(/test/i)
     expect(stars).toHaveTextContent(/10/i)
     expect(forks).toHaveTextContent(/5/i)
     expect(openIssues).toHaveTextContent(/2/i)
     expect(updatedAt).toHaveTextContent(/2021-04-02/i)
+
+    // repository link
+    expect(withinTable.getByText(/test/i).closest('a')).toHaveAttribute(
+      'href',
+      'http://localhost:3000/test',
+    )
   })
 })
