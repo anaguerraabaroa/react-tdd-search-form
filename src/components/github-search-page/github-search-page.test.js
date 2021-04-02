@@ -165,7 +165,7 @@ describe('when the user does a search', () => {
     // event (open select collapsable)
     fireEvent.mouseDown(screen.getByLabelText(/rows per page/i))
 
-    // options array
+    // get select collapsable
     const listbox = screen.getByRole('listbox', {name: /rows per page/i})
 
     // within applies a query inside listbox node
@@ -174,9 +174,29 @@ describe('when the user does a search', () => {
     // options destructuring
     const [option30, option50, option100] = options
 
-    // options
+    // options per page
     expect(option30).toHaveTextContent(/30/)
     expect(option50).toHaveTextContent(/50/)
     expect(option100).toHaveTextContent(/100/)
+  })
+
+  it('must exists the next and previous pagination button', async () => {
+    // event
+    fireClickSearch()
+
+    // find matchers returns a promise that waits for the table to be displayed
+    await screen.findByRole('table')
+
+    // previous page variable
+    const previousPageBtn = screen.getByRole('button', {name: /previous page/i})
+
+    // previous page
+    expect(previousPageBtn).toBeInTheDocument()
+
+    // next page
+    expect(screen.getByRole('button', {name: /next page/i})).toBeInTheDocument()
+
+    // previous page should be disabled in the first page
+    expect(previousPageBtn).toBeDisabled()
   })
 })
