@@ -120,7 +120,7 @@ describe('when the user does a search', () => {
     const [repository, stars, forks, openIssues, updatedAt] = tableCells
 
     // owner avatar image
-    expect(within(tableCells[0]).getByRole('img', {name: /test/i}))
+    expect(within(repository).getByRole('img', {name: /test/i}))
 
     // tableCells must return an array with 5 elements
     expect(tableCells).toHaveLength(5)
