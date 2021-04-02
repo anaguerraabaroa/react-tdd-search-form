@@ -6,8 +6,47 @@ import {
   waitFor,
   within,
 } from '@testing-library/react'
+import {rest} from 'msw'
+import {setupServer} from 'msw/node'
 
 import {GithubSearchPage} from './github-search-page'
+
+// api data variable
+const fakeRepo = {
+  id: '56757919',
+  name: 'django-rest-framework-reactive',
+  owner: {
+    avatar_url: 'https://avatars0.githubusercontent.com/u/2120224?v=4',
+  },
+  html_url: 'https://github.com/genialis/django-rest-framework-reactive',
+  updated_at: '2020-10-24',
+  stargazers_count: 58,
+  forks_count: 9,
+  open_issues_count: 0,
+}
+
+// setup server
+const server = setupServer(
+  rest.get('/search/repositories', (req, res, ctx) => {
+    return res(
+      ctx.status(200),
+      ctx.json({
+        total_count: 8643,
+        incomplete_results: false,
+        items: [fakeRepo],
+      }),
+    )
+  }),
+)
+
+// enable API mocking before tests
+beforeAll(() => server.listen())
+
+// reset any runtime request handlers we may add during the tests
+afterEach(() => server.resetHandlers())
+
+// disable API mocking after the tests are done
+afterAll(() => server.close())
 
 // render the component before each test
 beforeEach(() => render(<GithubSearchPage />))
@@ -40,7 +79,7 @@ describe('when the GithubSearchPage is mounted', () => {
   })
 })
 
-describe('when the user does a search', () => {
+describe('when the developer does a search', () => {
   // event variable
   const fireClickSearch = () =>
     fireEvent.click(screen.getByRole('button', {name: /search/i}))
@@ -152,6 +191,7 @@ describe('when the user does a search', () => {
     expect(screen.getByText(/1-1 of 1/i)).toBeInTheDocument()
   })
 
+  // test results per page
   it('results size per page select/combobox with the options: 30, 50, 100. The default is 30', async () => {
     // event
     fireClickSearch()
@@ -180,6 +220,7 @@ describe('when the user does a search', () => {
     expect(option100).toHaveTextContent(/100/)
   })
 
+  // test previous and next pagination buttons
   it('must exists the next and previous pagination button', async () => {
     // event
     fireClickSearch()
@@ -199,4 +240,9 @@ describe('when the user does a search', () => {
     // previous page should be disabled in the first page
     expect(previousPageBtn).toBeDisabled()
   })
+})
+
+describe('when the developer does a search without results', () => {
+  // test not found search results
+  it('must display an empty state message', () => {})
 })
