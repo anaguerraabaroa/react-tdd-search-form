@@ -7,6 +7,7 @@ import Grid from '@material-ui/core/Grid'
 import Box from '@material-ui/core/Box'
 
 import {Content} from '../content/index'
+import {getRepos} from '../../services/index.js'
 
 export const GithubSearchPage = () => {
   // state
@@ -20,9 +21,7 @@ export const GithubSearchPage = () => {
     setIsSearching(true)
 
     // once the promise is resolved, the button is enabled again and table is displayed
-    const response = await fetch(
-      '/search/repositories?q=react+language:python&page=2&per_page=50',
-    )
+    const response = await getRepos()
 
     const data = await response.json()
 
