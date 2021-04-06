@@ -14,6 +14,7 @@ export const GithubSearchPage = () => {
   const [isSearching, setIsSearching] = useState(false)
   const [isSearchApplied, setIsSearchApplied] = useState(false)
   const [reposList, setReposList] = useState([])
+  const [searchBy, setSearchBy] = useState('')
 
   // event click handler
   const handleClick = async () => {
@@ -21,7 +22,7 @@ export const GithubSearchPage = () => {
     setIsSearching(true)
 
     // once the promise is resolved, the button is enabled again and table is displayed
-    const response = await getRepos()
+    const response = await getRepos({q: searchBy})
 
     const data = await response.json()
 
@@ -30,6 +31,7 @@ export const GithubSearchPage = () => {
     setIsSearching(false)
   }
 
+  const handleChange = ({target: {value}}) => setSearchBy(value)
   return (
     <Container>
       <Box my={4}>
@@ -40,7 +42,13 @@ export const GithubSearchPage = () => {
 
       <Grid container spacing={2} justify="space-between">
         <Grid item md={6} xs={12}>
-          <TextField fullWidth label="Filter by" id="filterby"></TextField>
+          <TextField
+            value={searchBy}
+            fullWidth
+            label="Filter by"
+            id="filterby"
+            onChange={handleChange}
+          ></TextField>
         </Grid>
 
         <Grid item md={3} xs={12}>

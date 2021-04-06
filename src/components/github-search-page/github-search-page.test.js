@@ -10,7 +10,11 @@ import {rest} from 'msw'
 import {setupServer} from 'msw/node'
 
 import {GithubSearchPage} from './github-search-page'
-import {makeFakeResponse, makeFakeRepo} from '../../__fixtures__/repos'
+import {
+  makeFakeResponse,
+  makeFakeRepo,
+  getReposListBy,
+} from '../../__fixtures__/repos'
 import {OK_STATUS} from '../../consts/index'
 
 // fake response variable
@@ -257,5 +261,52 @@ describe('when the developer does a search without results', () => {
 
     // expect not table
     expect(screen.queryByRole('table')).not.toBeInTheDocument()
+  })
+})
+
+describe('when the developer types on filter by and does a search', () => {
+  // test filter by repo name
+  it('must display the related repos', async () => {
+    // setup the mock server
+    const internalFakeResponse = makeFakeResponse()
+    const REPO_NAME = 'laravel'
+    const expectedRepo = getReposListBy({name: REPO_NAME})[0]
+
+    server.use(
+      rest.get('/search/repositories', (req, res, ctx) =>
+        res(
+          ctx.status(OK_STATUS),
+          ctx.json({
+            ...internalFakeResponse,
+            items: getReposListBy({name: req.url.searchParams.get('q')}),
+          }),
+        ),
+      ),
+    )
+    // type for a word in filter by input
+    fireEvent.change(screen.getByLabelText(/filter by/i), {
+      target: {value: REPO_NAME},
+    })
+
+    // click on search
+    fireClickSearch()
+
+    // variable
+    const table = await screen.findByRole('table')
+
+    // expect the table content
+    expect(table).toBeInTheDocument()
+
+    // within applies a query inside table node
+    const withinTable = within(table)
+
+    // get tableCells
+    const tableCells = withinTable.getAllByRole('cell')
+
+    // tableCells array
+    const [repository] = tableCells
+
+    // array elements
+    expect(repository).toHaveTextContent(expectedRepo.name)
   })
 })
