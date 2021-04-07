@@ -1,3 +1,6 @@
+import repos30Paginated from './repos-30-paginated.json'
+import repos50Paginated from './repos-50-paginated.json'
+
 // create fake response
 export const makeFakeResponse = ({totalCount = 0} = {}) => ({
   total_count: totalCount,
@@ -31,8 +34,16 @@ const reposList = reposData.map(name => makeFakeRepo({name, id: name}))
 export const getReposListBy = ({name}) =>
   reposList.filter(repo => repo.name === name)
 
+// filter elements per page
+export const getReposPerPage = ({currentPage, perPage}) => {
+  return perPage === 30
+    ? repos30Paginated[currentPage]
+    : repos50Paginated[currentPage]
+}
+
 export default {
   makeFakeResponse,
   makeFakeRepo,
   getReposListBy,
+  getReposPerPage,
 }

@@ -14,6 +14,7 @@ import {
   makeFakeResponse,
   makeFakeRepo,
   getReposListBy,
+  getReposPerPage,
 } from '../../__fixtures__/repos'
 import {OK_STATUS} from '../../consts/index'
 
@@ -308,5 +309,42 @@ describe('when the developer types on filter by and does a search', () => {
 
     // array elements
     expect(repository).toHaveTextContent(expectedRepo.name)
+  })
+})
+
+describe('when the developer does a search and selects 50 rows per page', () => {
+  // test to validate rows per page
+  it('must fetch a new search and display 50 rows results on the table', async () => {
+    // config mock server response
+    server.use(
+      rest.get('/search/repositories', (req, res, ctx) =>
+        res(
+          ctx.status(OK_STATUS),
+          ctx.json({
+            ...makeFakeResponse(),
+            items: getReposPerPage({
+              perPage: parseInt(req.url.searchParams.get('per_page')),
+              currentPage: req.url.searchParams.get('page'),
+            }),
+          }),
+        ),
+      ),
+    )
+
+    // click search
+    fireClickSearch()
+
+    // expect table exists and 31 rows per page (30 + table headings)
+    expect(await screen.findByRole('table')).toBeInTheDocument()
+    expect(await screen.findAllByRole('row')).toHaveLength(31)
+
+    // display select options (30,50,100) after click on arrow
+    fireEvent.mouseDown(screen.getByLabelText(/rows per page/i))
+
+    // select 50 rows per page
+    fireEvent.click(screen.getByRole('option', {name: '50'}))
+
+    // expect 51 rows per page (50 + table headings)
+    expect(await screen.findAllByRole('row')).toHaveLength(51)
   })
 })
