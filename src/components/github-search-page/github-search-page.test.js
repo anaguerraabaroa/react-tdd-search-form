@@ -334,7 +334,7 @@ describe('when the developer does a search and selects 50 rows per page', () => 
     // click search
     fireClickSearch()
 
-    // expect table exists and 31 rows per page (30 + table headings)
+    // wait for table to exist and expect 31 rows per page (30 + table headings)
     expect(await screen.findByRole('table')).toBeInTheDocument()
     expect(await screen.findAllByRole('row')).toHaveLength(31)
 
@@ -345,6 +345,10 @@ describe('when the developer does a search and selects 50 rows per page', () => 
     fireEvent.click(screen.getByRole('option', {name: '50'}))
 
     // expect 51 rows per page (50 + table headings)
-    expect(await screen.findAllByRole('row')).toHaveLength(51)
+    await waitFor(() =>
+      expect(screen.getByRole('button', {name: /search/i})).not.toBeDisabled(),
+    )
+
+    expect(screen.getAllByRole('row')).toHaveLength(51)
   })
 })

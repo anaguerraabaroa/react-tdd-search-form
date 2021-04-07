@@ -16,7 +16,6 @@ export const GithubSearchPage = () => {
   const [reposList, setReposList] = useState([])
   const [searchBy, setSearchBy] = useState('')
   const [rowsPerPage, setRowsPerPage] = useState(30)
-
   const didMount = useRef(false)
 
   // event click handler

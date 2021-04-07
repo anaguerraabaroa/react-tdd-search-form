@@ -34,7 +34,7 @@ const reposList = reposData.map(name => makeFakeRepo({name, id: name}))
 export const getReposListBy = ({name}) =>
   reposList.filter(repo => repo.name === name)
 
-// filter elements per page
+// filter rows per page
 export const getReposPerPage = ({currentPage, perPage}) => {
   return perPage === 30
     ? repos30Paginated[currentPage]
