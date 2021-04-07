@@ -14,8 +14,8 @@ import {
   makeFakeResponse,
   makeFakeRepo,
   getReposListBy,
-  getReposPerPage,
 } from '../../__fixtures__/repos'
+import {handlerPaginated} from '../../__fixtures__/handlers'
 import {OK_STATUS} from '../../consts/index'
 
 // fake response variable
@@ -316,20 +316,7 @@ describe('when the developer does a search and selects 50 rows per page', () => 
   // test to validate rows per page
   it('must fetch a new search and display 50 rows results on the table', async () => {
     // config mock server response
-    server.use(
-      rest.get('/search/repositories', (req, res, ctx) =>
-        res(
-          ctx.status(OK_STATUS),
-          ctx.json({
-            ...makeFakeResponse(),
-            items: getReposPerPage({
-              perPage: parseInt(req.url.searchParams.get('per_page')),
-              currentPage: req.url.searchParams.get('page'),
-            }),
-          }),
-        ),
-      ),
-    )
+    server.use(rest.get('/search/repositories', handlerPaginated))
 
     // click search
     fireClickSearch()
@@ -344,11 +331,16 @@ describe('when the developer does a search and selects 50 rows per page', () => 
     // select 50 rows per page
     fireEvent.click(screen.getByRole('option', {name: '50'}))
 
-    // expect 51 rows per page (50 + table headings)
-    await waitFor(() =>
-      expect(screen.getByRole('button', {name: /search/i})).not.toBeDisabled(),
+    // wait for the button to not be disabled to render the table
+    await waitFor(
+      () =>
+        expect(
+          screen.getByRole('button', {name: /search/i}),
+        ).not.toBeDisabled(),
+      {timeout: 3000},
     )
 
+    // expect 51 rows per page (50 + table headings)
     expect(screen.getAllByRole('row')).toHaveLength(51)
   })
 })
