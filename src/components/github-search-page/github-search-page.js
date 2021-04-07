@@ -15,6 +15,7 @@ export const GithubSearchPage = () => {
   const [isSearchApplied, setIsSearchApplied] = useState(false)
   const [reposList, setReposList] = useState([])
   const [searchBy, setSearchBy] = useState('')
+  const [rowsPerPage, setRowsPerPage] = useState(30)
 
   // event click handler
   const handleClick = async () => {
@@ -22,7 +23,7 @@ export const GithubSearchPage = () => {
     setIsSearching(true)
 
     // once the promise is resolved, the button is enabled again and table is displayed
-    const response = await getRepos({q: searchBy})
+    const response = await getRepos({q: searchBy, rowsPerPage})
 
     const data = await response.json()
 
@@ -65,7 +66,12 @@ export const GithubSearchPage = () => {
       </Grid>
 
       <Box my={4}>
-        <Content isSearchApplied={isSearchApplied} reposList={reposList} />
+        <Content
+          isSearchApplied={isSearchApplied}
+          reposList={reposList}
+          rowsPerPage={rowsPerPage}
+          setRowsPerPage={setRowsPerPage}
+        />
       </Box>
     </Container>
   )
