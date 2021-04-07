@@ -332,6 +332,7 @@ describe('when the developer does a search and selects 50 rows per page', () => 
     fireEvent.click(screen.getByRole('option', {name: '50'}))
 
     // wait for the button to not be disabled to render the table
+    // default timeout is 1000 but it is not enough time to complete the test
     await waitFor(
       () =>
         expect(
@@ -341,6 +342,7 @@ describe('when the developer does a search and selects 50 rows per page', () => 
     )
 
     // expect 51 rows per page (50 + table headings)
+    // default timeout is not enough time to complete the test
     expect(screen.getAllByRole('row')).toHaveLength(51)
-  })
+  }, 6000)
 })
