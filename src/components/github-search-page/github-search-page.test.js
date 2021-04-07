@@ -83,6 +83,14 @@ describe('when the developer does a search', () => {
     // before the event the button should not be disabled
     expect(screen.getByRole('button', {name: /search/i})).not.toBeDisabled()
 
+    // change input
+    fireEvent.change(screen.getByLabelText(/filter by/i), {
+      target: {value: 'test'},
+    })
+
+    // before the event the button should not be disabled
+    expect(screen.getByRole('button', {name: /search/i})).not.toBeDisabled()
+
     // event
     fireClickSearch()
 

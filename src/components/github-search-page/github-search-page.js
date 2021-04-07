@@ -18,9 +18,10 @@ export const GithubSearchPage = () => {
   const [isSearching, setIsSearching] = useState(false)
   const [isSearchApplied, setIsSearchApplied] = useState(false)
   const [reposList, setReposList] = useState([])
-  const [searchBy, setSearchBy] = useState('')
   const [rowsPerPage, setRowsPerPage] = useState(ROWS_PER_PAGE_DEFAULT)
+
   const didMount = useRef(false)
+  const searchByInput = useRef(null)
 
   // event click handler
   const handleSearch = useCallback(async () => {
@@ -28,16 +29,19 @@ export const GithubSearchPage = () => {
     setIsSearching(true)
 
     // once the promise is resolved, the button is enabled again and table is displayed
-    const response = await getRepos({q: searchBy, rowsPerPage})
+    const response = await getRepos({
+      q: searchByInput.current.value,
+      rowsPerPage,
+    })
 
     const data = await response.json()
 
     setReposList(data.items)
     setIsSearchApplied(true)
     setIsSearching(false)
-  }, [rowsPerPage, searchBy])
+  }, [rowsPerPage])
 
-  const handleChange = ({target: {value}}) => setSearchBy(value)
+  // event handlers
   const handleChangeRowsPerPage = ({target: {value}}) => setRowsPerPage(value)
 
   useEffect(() => {
@@ -61,11 +65,10 @@ export const GithubSearchPage = () => {
       <Grid container spacing={2} justify="space-between">
         <Grid item md={6} xs={12}>
           <TextField
-            value={searchBy}
+            inputRef={searchByInput}
             fullWidth
             label="Filter by"
             id="filterby"
-            onChange={handleChange}
           ></TextField>
         </Grid>
 
