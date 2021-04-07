@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect, useCallback, useRef} from 'react'
 import Typography from '@material-ui/core/Typography'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
@@ -17,8 +17,10 @@ export const GithubSearchPage = () => {
   const [searchBy, setSearchBy] = useState('')
   const [rowsPerPage, setRowsPerPage] = useState(30)
 
+  const didMount = useRef(false)
+
   // event click handler
-  const handleClick = async () => {
+  const handleSearch = useCallback(async () => {
     // when button receives the event, an API request is sent and the button is disabled
     setIsSearching(true)
 
@@ -30,9 +32,20 @@ export const GithubSearchPage = () => {
     setReposList(data.items)
     setIsSearchApplied(true)
     setIsSearching(false)
-  }
+  }, [rowsPerPage, searchBy])
 
   const handleChange = ({target: {value}}) => setSearchBy(value)
+
+  useEffect(() => {
+    // stop search when component is mounted for the first time
+    if (!didMount.current) {
+      didMount.current = true
+      return
+    }
+    // trigger search when search button is clicked
+    handleSearch()
+  }, [handleSearch])
+
   return (
     <Container>
       <Box my={4}>
@@ -58,7 +71,7 @@ export const GithubSearchPage = () => {
             color="primary"
             variant="contained"
             disabled={isSearching}
-            onClick={handleClick}
+            onClick={handleSearch}
           >
             Search
           </Button>

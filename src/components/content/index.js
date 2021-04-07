@@ -22,10 +22,14 @@ const tableHeaders = [
 ]
 
 // render content: initial message or table
-export const Content = ({isSearchApplied, reposList, rowsPerPage, setRowsPerPage) => {
-  
+export const Content = ({
+  isSearchApplied,
+  reposList,
+  rowsPerPage,
+  setRowsPerPage,
+}) => {
   const handleChangeRowsPerPage = ({target: {value}}) => setRowsPerPage(value)
-  
+
   const renderWithBox = cb => (
     <Box
       display="flex"
@@ -83,7 +87,7 @@ export const Content = ({isSearchApplied, reposList, rowsPerPage, setRowsPerPage
           rowsPerPage={rowsPerPage}
           page={0}
           onChangePage={() => {}}
-          onChangeRowsPerPage={() => {handleChangeRowsPerPage}}
+          onChangeRowsPerPage={handleChangeRowsPerPage}
         />
       </>
     )
@@ -107,5 +111,5 @@ Content.propTypes = {
   isSearchApplied: PropTypes.bool.isRequired,
   reposList: PropTypes.arrayOf(PropTypes.object).isRequired,
   rowsPerPage: PropTypes.number.isRequired,
-  setRowsPerPage: PropTypes.func.isRequired
+  setRowsPerPage: PropTypes.func.isRequired,
 }
