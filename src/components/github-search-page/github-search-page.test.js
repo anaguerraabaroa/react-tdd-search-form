@@ -392,7 +392,7 @@ describe('when the developer clicks on search and then on next page button', () 
   }, 30000)
 })
 
-describe('when the developer clicks on search and then on next page button', () => {
+describe('when the developer clicks on search and then on next page button and clicks on search again', () => {
   // test to validate pagination
   it('must display the next repositories page', async () => {
     // config server handler
