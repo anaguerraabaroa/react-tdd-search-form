@@ -12,6 +12,8 @@ import {GithubTable} from '../github-table'
 import {getRepos} from '../../services/index.js'
 
 const ROWS_PER_PAGE_DEFAULT = 30
+const INITIAL_CURRENT_PAGE = 0
+const INITIAL_TOTAL_COUNT = 0
 
 export const GithubSearchPage = () => {
   // state
@@ -19,6 +21,8 @@ export const GithubSearchPage = () => {
   const [isSearchApplied, setIsSearchApplied] = useState(false)
   const [reposList, setReposList] = useState([])
   const [rowsPerPage, setRowsPerPage] = useState(ROWS_PER_PAGE_DEFAULT)
+  const [currentPage, setCurrentPage] = useState(INITIAL_CURRENT_PAGE)
+  const [totalCount, setTotalCount] = useState(INITIAL_TOTAL_COUNT)
 
   const didMount = useRef(false)
   const searchByInput = useRef(null)
@@ -32,17 +36,22 @@ export const GithubSearchPage = () => {
     const response = await getRepos({
       q: searchByInput.current.value,
       rowsPerPage,
+      currentPage,
     })
 
     const data = await response.json()
 
     setReposList(data.items)
+    setTotalCount(data.total_count)
     setIsSearchApplied(true)
     setIsSearching(false)
-  }, [rowsPerPage])
+  }, [rowsPerPage, currentPage])
 
   // event handlers
   const handleChangeRowsPerPage = ({target: {value}}) => setRowsPerPage(value)
+  const handleChangePage = (event, newPage) => {
+    setCurrentPage(newPage)
+  }
 
   useEffect(() => {
     // stop search when component is mounted for the first time
@@ -92,10 +101,10 @@ export const GithubSearchPage = () => {
             <TablePagination
               rowsPerPageOptions={[30, 50, 100]}
               component="div"
-              count={1000}
+              count={totalCount}
               rowsPerPage={rowsPerPage}
-              page={0}
-              onChangePage={() => {}}
+              page={currentPage}
+              onChangePage={handleChangePage}
               onChangeRowsPerPage={handleChangeRowsPerPage}
             />
           </>
