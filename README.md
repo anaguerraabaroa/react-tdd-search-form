@@ -1,70 +1,149 @@
-# Getting Started with Create React App
+![Form](./src/images/form.png)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# **TDD Form with an API Request**
 
-## Available Scripts
+This form has been developed applying Test Driven Development with
+[<img src = "https://img.shields.io/badge/-React-61DAFB?style=flat&logo=react&logoColor=black">](https://es.reactjs.org/),
+[<img src = "https://img.shields.io/badge/-Jest-C21325?style=flat&logo=jest&logoColor=white">](https://jestjs.io/),
+[<img src = "https://img.shields.io/badge/-Testing_Library-E33332?style=flat&logo=testing-library&logoColor=white">](https://testing-library.com/),
+[<img src = "https://img.shields.io/badge/-Mock_Service_Worker-E95420">](https://mswjs.io/)
+and
+[<img src = "https://img.shields.io/badge/-Material_UI-0081CB?style=flat&logo=material-ui&logoColor=white">](https://material-ui.com/)
 
-In the project directory, you can run:
+This exercise is part of the
+[**Test Driven Development (TDD) en React JS**](https://www.udemy.com/course/tdd-react-js/?referralCode=F40803D2C4D2934AB038)
+course.
 
-### `npm start`
+**NOTE:** a [**mock server**](https://mswjs.io/) and the
+[**Github REST API**](https://docs.github.com/en/rest/overview/resources-in-the-rest-api)
+rest have been used to develop this exercise.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## **Quick start guide**
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Instructions to start this project:
 
-### `npm test`
+### Installation
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Clone repository:
 
-### `npm run build`
+```
+git clone [repository]
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- Install NPM packages and dependencies:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```
+npm install
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- Run project on local server
 
-### `npm run eject`
+```
+npm start
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### Tests
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- Run tests:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+```
+npm run test
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## **Project features**
 
-## Learn More
+**Github Repositories List**
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+As a developer, I want to take a quick look at the github repositories as a way
+of inspiring me to be better professional.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+**Acceptance Criteria**
 
-### Code Splitting
+- There must be a github repositories list page.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- The page should contain the next filters:
 
-### Analyzing the Bundle Size
+  - An input text with label "filter by" field in order to do the search.
+  - The Search Button.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- The results section should contain:
+  - Before the first search, show the initial state message “Please provide a
+    search option and click in the search button”.
+  - The search button should be disabled until the search is done.
+  - The data should be displayed as a sticky table.
+  - The header table should contain: Repository, stars, forks, open issues and
+    updated at
+  - Each result should have: owner avatar image, name, stars, updated at, forks,
+    open issues. It should have a link that opens in a new tab the github
+    repository selected.
+  - Total results number of the search and the current number of results.
+    Example: 1-10 of 100.
+  - A results size per page select/combobox with the options: 30, 50, 100. The
+    default is 30.
+  - Next and previous pagination when the context applies to them, example: on
+    the first page, the previous page should be disabled.
+  - If there is no results, then show a empty state message “You search has no
+    results”
+- Handling filter:
+  - If the developer types "ruby" in the filter by repository name input and
+    clicks on search, the app should return repositories with the "ruby" word
+    associated.
+- Size per page:
+  - If the developer clicks on search button and then selects 50 per page value,
+    the app should show 50 repositories on the table
+- Pagination:
+  - If the developer clicks on search and then on next page button, the app
+    should show the next repositories.
+  - If the developer clicks on search and then on next page button and then
+    clicks on previous button, the app should show the previous repositories.
+- Handling errors:
+  - If there is an unexpected error from the frontend app, the app should show a
+    message “There is an unexpected error” and a reload button.
+  - If there is an unexpected error from the backend, the app should display an
+    alert message error with the message from the service if any, if not show
+    the generic “there is an unexpected error”.
 
-### Making a Progressive Web App
+## **Folder Structure**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```
+React TDD Search Form
+├── docs
+├── node_modules
+├── public
+├── src
+│   ├── __fixtures__
+│   │   ├── handlers.js
+│   │   ├── repos-30-paginated.json
+│   │   ├── repos-50-paginated.json
+│   │   └── repos.js
+│   ├── components
+│   │    ├── content
+│   │    │   └── index.js
+│   │    ├── error-boundary
+│   │    │   ├── error-boundary.js
+│   │    │   ├── error-boundary.test.js
+│   │    │   └── index.js
+│   │    ├── github-search-page
+│   │    │   ├── github-search-page.integration.test.js
+│   │    │   ├── github-search-page.js
+│   │    │   ├── github-search-page.test.js
+│   │    │   └── index.js
+│   │    └── github-table
+│   │        └── index.js
+│   ├── const
+│   │    └── index.js
+│   ├── images
+│   │    └── form.png
+│   ├── services
+│   │    └── index.js
+│   ├── App
+│   │── index.js
+│   └── setupTests.js
+|── .eslintrc
+├── .env
+├── .gitignore
+├── .prettierrc
+├── package-lock.json
+├── package.json
+└── README.md
+```
