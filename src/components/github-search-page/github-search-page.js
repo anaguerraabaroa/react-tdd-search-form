@@ -6,6 +6,7 @@ import Container from '@material-ui/core/Container'
 import Grid from '@material-ui/core/Grid'
 import Box from '@material-ui/core/Box'
 import TablePagination from '@material-ui/core/TablePagination'
+import Snackbar from '@material-ui/core/Snackbar'
 
 import {Content} from '../content/index'
 import {GithubTable} from '../github-table'
@@ -23,28 +24,46 @@ export const GithubSearchPage = () => {
   const [rowsPerPage, setRowsPerPage] = useState(ROWS_PER_PAGE_DEFAULT)
   const [currentPage, setCurrentPage] = useState(INITIAL_CURRENT_PAGE)
   const [totalCount, setTotalCount] = useState(INITIAL_TOTAL_COUNT)
+  const [isOpen, setIsOpen] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
 
   const didMount = useRef(false)
   const searchByInput = useRef(null)
 
   // event click handler
   const handleSearch = useCallback(async () => {
-    // when button receives the event, an API request is sent and the button is disabled
-    setIsSearching(true)
+    try {
+      // when button receives the event, an API request is sent and the button is disabled
+      setIsSearching(true)
 
-    // once the promise is resolved, the button is enabled again and table is displayed
-    const response = await getRepos({
-      q: searchByInput.current.value,
-      rowsPerPage,
-      currentPage,
-    })
+      // once the promise is resolved, the button is enabled again and table is displayed
+      const response = await getRepos({
+        q: searchByInput.current.value,
+        rowsPerPage,
+        currentPage,
+      })
 
-    const data = await response.json()
+      // validate server errors
+      if (!response.ok) {
+        throw response
+      }
 
-    setReposList(data.items)
-    setTotalCount(data.total_count)
-    setIsSearchApplied(true)
-    setIsSearching(false)
+      // success response
+      const data = await response.json()
+
+      setReposList(data.items)
+      setTotalCount(data.total_count)
+      setIsSearchApplied(true)
+      setIsSearching(false)
+    } catch (err) {
+      // error response
+      const data = await err.json()
+      setIsOpen(true)
+      setErrorMessage(data.message)
+    } finally {
+      // whatever the server response is success or error, it confirms that the search has finished
+      setIsSearching(false)
+    }
   }, [rowsPerPage, currentPage])
 
   // event handlers
@@ -110,6 +129,16 @@ export const GithubSearchPage = () => {
           </>
         </Content>
       </Box>
+      <Snackbar
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+        open={isOpen}
+        autoHideDuration={6000}
+        onClose={() => setIsOpen(false)}
+        message={errorMessage}
+      />
     </Container>
   )
 }

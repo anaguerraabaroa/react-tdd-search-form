@@ -7,6 +7,10 @@ export const makeFakeResponse = ({totalCount = 0} = {}) => ({
   items: [],
 })
 
+export const makeFakeError = ({message = 'Validation Failed'} = {}) => ({
+  message,
+})
+
 // create fake repo
 export const makeFakeRepo = ({
   name = 'django-rest-framework-reactive',

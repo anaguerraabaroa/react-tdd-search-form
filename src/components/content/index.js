@@ -10,7 +10,7 @@ export const Content = ({isSearchApplied, reposList, children}) => {
       display="flex"
       alignItems="center"
       justifyContent="center"
-      height={400}
+      height={500}
     >
       {cb}
     </Box>

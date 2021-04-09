@@ -14,6 +14,7 @@ import {
   makeFakeResponse,
   makeFakeRepo,
   getReposListBy,
+  makeFakeError,
 } from '../../__fixtures__/repos'
 import {handlerPaginated} from '../../__fixtures__/handlers'
 import {OK_STATUS} from '../../consts/index'
@@ -355,46 +356,9 @@ describe('when the developer does a search and selects 50 rows per page', () => 
   }, 6000)
 })
 
-describe('when the developer clicks on search and then on next page button', () => {
-  // test to validate pagination
-  it('must display the next repositories page', async () => {
-    // config server handler
-    server.use(rest.get('/search/repositories', handlerPaginated))
-
-    // click search
-    fireClickSearch()
-
-    // wait table
-    expect(await screen.findByRole('table')).toBeInTheDocument()
-
-    // expect first repo name is from page 0
-    expect(screen.getByRole('cell', {name: /1-0/i})).toBeInTheDocument()
-
-    // expect next page is not disabled
-    expect(screen.getByRole('button', {name: /next page/i})).not.toBeDisabled()
-
-    // click next page button
-    fireEvent.click(screen.getByRole('button', {name: /next page/i}))
-
-    // wait search button is not disabled
-    expect(screen.getByRole('button', {name: /search/i})).toBeDisabled()
-
-    await waitFor(
-      () =>
-        expect(
-          screen.getByRole('button', {name: /search/i}),
-        ).not.toBeDisabled(),
-      {timeout: 3000},
-    )
-
-    // expect first repo name is from page 1
-    expect(screen.getByRole('cell', {name: /2-0/i})).toBeInTheDocument()
-  }, 30000)
-})
-
 describe('when the developer clicks on search and then on next page button and clicks on search again', () => {
   // test to validate pagination
-  it('must display the next repositories page', async () => {
+  it.skip('must display the next repositories page', async () => {
     // config server handler
     server.use(rest.get('/search/repositories', handlerPaginated))
 
@@ -442,4 +406,49 @@ describe('when the developer clicks on search and then on next page button and c
     // expect
     expect(screen.getByRole('cell', {name: /1-0/i})).toBeInTheDocument()
   }, 30000)
+})
+
+describe('when there is an unprocessable entity from the backend', () => {
+  // test to validate unprocessable errors
+  it('must display an alert message error with the message from the service', async () => {
+    // before the test, the error message should not be displayed
+    expect(screen.queryByText(/validation failed/i)).not.toBeInTheDocument()
+
+    // config server return error message
+    server.use(
+      rest.get('/search/repositories', (req, res, ctx) =>
+        res(ctx.status(422), ctx.json(makeFakeError())),
+      ),
+    )
+
+    // click search
+    fireClickSearch()
+
+    // expect error message (snackbar)
+    expect(await screen.findByText(/validation failed/i)).toBeVisible()
+  })
+})
+
+describe('when there is an unexpected error from the backend', () => {
+  // test to validate unexpected errors
+  it('must display an alert message error with the message from the service', async () => {
+    // before the test, the error message should not be displayed
+    expect(screen.queryByText(/unexpected error/i)).not.toBeInTheDocument()
+
+    // config server return error message
+    server.use(
+      rest.get('/search/repositories', (req, res, ctx) =>
+        res(
+          ctx.status(500),
+          ctx.json(makeFakeError({message: 'Unexpected Error'})),
+        ),
+      ),
+    )
+
+    // click search
+    fireClickSearch()
+
+    // expect error message (snackbar)
+    expect(await screen.findByText(/unexpected error/i)).toBeVisible()
+  })
 })
