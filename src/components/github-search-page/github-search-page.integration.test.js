@@ -125,3 +125,111 @@ describe('when the developer clicks on search and then on next page button and c
     expect(screen.getByRole('cell', {name: /1-0/i})).toBeInTheDocument()
   }, 30000)
 })
+
+describe('when the developer does a search and clicks on next page button and selects 50 rows per page', () => {
+  // test to validate that first results page is displayed when user change from 30 to 50 rows per page
+  it('must display the results of the first page', async () => {
+    // config server handler
+    server.use(rest.get('/search/repositories', handlerPaginated))
+
+    // click search
+    fireClickSearch()
+
+    // wait table
+    expect(await screen.findByRole('table')).toBeInTheDocument()
+
+    // expect first repo name is from page 0
+    expect(screen.getByRole('cell', {name: /1-0/i})).toBeInTheDocument()
+
+    // expect next page is not disabled
+    expect(screen.getByRole('button', {name: /next page/i})).not.toBeDisabled()
+
+    // click next page button
+    fireEvent.click(screen.getByRole('button', {name: /next page/i}))
+
+    // wait search button is not disabled
+    expect(screen.getByRole('button', {name: /search/i})).toBeDisabled()
+
+    await waitFor(
+      () =>
+        expect(
+          screen.getByRole('button', {name: /search/i}),
+        ).not.toBeDisabled(),
+      {timeout: 3000},
+    )
+
+    // expect first repo name is from page 1
+    expect(screen.getByRole('cell', {name: /2-0/i})).toBeInTheDocument()
+
+    // display select options (30,50,100) after click on arrow
+    fireEvent.mouseDown(screen.getByLabelText(/rows per page/i))
+
+    // select 50 rows per page
+    fireEvent.click(screen.getByRole('option', {name: '50'}))
+
+    // wait for the button to not be disabled to render the table
+    // default timeout is 1000 but it is not enough time to complete the test
+    await waitFor(
+      () =>
+        expect(
+          screen.getByRole('button', {name: /search/i}),
+        ).not.toBeDisabled(),
+      {timeout: 3000},
+    )
+
+    // expect first page
+    expect(screen.getByRole('cell', {name: /1-0/i})).toBeInTheDocument()
+  }, 30000)
+})
+
+describe('when the developer does a search and clicks on next page button and clicks on search again', () => {
+  // test to validate that first results page is displayed when user change page and does a new search
+  it('must display the results of the first page', async () => {
+    // config server handler
+    server.use(rest.get('/search/repositories', handlerPaginated))
+
+    // click search
+    fireClickSearch()
+
+    // wait table
+    expect(await screen.findByRole('table')).toBeInTheDocument()
+
+    // expect first repo name is from page 0
+    expect(screen.getByRole('cell', {name: /1-0/i})).toBeInTheDocument()
+
+    // expect next page is not disabled
+    expect(screen.getByRole('button', {name: /next page/i})).not.toBeDisabled()
+
+    // click next page button
+    fireEvent.click(screen.getByRole('button', {name: /next page/i}))
+
+    // wait search button is not disabled
+    expect(screen.getByRole('button', {name: /search/i})).toBeDisabled()
+
+    await waitFor(
+      () =>
+        expect(
+          screen.getByRole('button', {name: /search/i}),
+        ).not.toBeDisabled(),
+      {timeout: 3000},
+    )
+
+    // expect first repo name is from page 1
+    expect(screen.getByRole('cell', {name: /2-0/i})).toBeInTheDocument()
+
+    // click search
+    fireClickSearch()
+
+    // wait search button is not disabled
+    await waitFor(
+      () =>
+        expect(
+          screen.getByRole('button', {name: /search/i}),
+        ).not.toBeDisabled(),
+      {timeout: 3000},
+    )
+
+    // expect first page
+    expect(screen.getByRole('cell', {name: /1-0/i})).toBeInTheDocument()
+  }, 30000)
+})

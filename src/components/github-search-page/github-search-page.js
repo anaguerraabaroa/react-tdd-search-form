@@ -67,9 +67,20 @@ export const GithubSearchPage = () => {
   }, [rowsPerPage, currentPage])
 
   // event handlers
-  const handleChangeRowsPerPage = ({target: {value}}) => setRowsPerPage(value)
+  const handleChangeRowsPerPage = ({target: {value}}) => {
+    setCurrentPage(INITIAL_CURRENT_PAGE)
+    setRowsPerPage(value)
+  }
   const handleChangePage = (event, newPage) => {
     setCurrentPage(newPage)
+  }
+
+  const handleClickSearch = () => {
+    if (currentPage === INITIAL_CURRENT_PAGE) {
+      handleSearch()
+      return
+    }
+    setCurrentPage(INITIAL_CURRENT_PAGE)
   }
 
   useEffect(() => {
@@ -84,8 +95,8 @@ export const GithubSearchPage = () => {
 
   return (
     <Container>
-      <Box my={4}>
-        <Typography variant="h3" component="h1">
+      <Box my={12}>
+        <Typography variant="h3" component="h1" color="primary">
           Github repositories list
         </Typography>
       </Box>
@@ -106,7 +117,7 @@ export const GithubSearchPage = () => {
             color="primary"
             variant="contained"
             disabled={isSearching}
-            onClick={handleSearch}
+            onClick={handleClickSearch}
           >
             Search
           </Button>

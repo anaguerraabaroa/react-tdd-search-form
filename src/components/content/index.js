@@ -21,12 +21,12 @@ export const Content = ({isSearchApplied, reposList, children}) => {
   }
   if (isSearchApplied && !reposList.length) {
     return renderWithBox(() => (
-      <Typography>Your search has no results</Typography>
+      <Typography color="error">Your search has no results</Typography>
     ))
   }
 
   return renderWithBox(() => (
-    <Typography>
+    <Typography color="primary">
       Please provide a search option and click in the search button
     </Typography>
   ))
