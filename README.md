@@ -1,6 +1,6 @@
 ![Form](./src/images/form.png)
 
-# **TDD Form with an API Request**
+# **TDD Search Form**
 
 This form has been developed applying Test Driven Development with
 [<img src = "https://img.shields.io/badge/-React-61DAFB?style=flat&logo=react&logoColor=black">](https://es.reactjs.org/),
