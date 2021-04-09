@@ -17,7 +17,11 @@ import {
   makeFakeError,
 } from '../../__fixtures__/repos'
 import {handlerPaginated} from '../../__fixtures__/handlers'
-import {OK_STATUS} from '../../consts/index'
+import {
+  OK_STATUS,
+  UNEXPECTED_STATUS,
+  UNPROCESSABLE_STATUS,
+} from '../../consts/index'
 
 // fake response variable
 const fakeResponse = makeFakeResponse({totalCount: 1})
@@ -417,7 +421,7 @@ describe('when there is an unprocessable entity from the backend', () => {
     // config server return error message
     server.use(
       rest.get('/search/repositories', (req, res, ctx) =>
-        res(ctx.status(422), ctx.json(makeFakeError())),
+        res(ctx.status(UNPROCESSABLE_STATUS), ctx.json(makeFakeError())),
       ),
     )
 
@@ -439,7 +443,7 @@ describe('when there is an unexpected error from the backend', () => {
     server.use(
       rest.get('/search/repositories', (req, res, ctx) =>
         res(
-          ctx.status(500),
+          ctx.status(UNEXPECTED_STATUS),
           ctx.json(makeFakeError({message: 'Unexpected Error'})),
         ),
       ),
