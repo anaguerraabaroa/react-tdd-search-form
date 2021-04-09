@@ -15,8 +15,7 @@ This exercise is part of the
 course.
 
 **NOTE:** a [**mock server**](https://mswjs.io/) and the
-[**Github REST API**](https://docs.github.com/en/rest/overview/resources-in-the-rest-api)
-rest have been used to develop this exercise.
+[**Github REST API**](https://docs.github.com/en/rest/overview/resources-in-the-rest-api) have been used to develop this exercise.
 
 ## **Quick start guide**
 
