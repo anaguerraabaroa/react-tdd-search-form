@@ -9,7 +9,7 @@ export class ErrorBoundary extends React.Component {
     this.state = {hasError: false}
   }
 
-  // lifecycle that stays in caché when the error happens
+  // lifecycle that keep in cache when the error happens
   static getDerivedStateFromError() {
     return {hasError: true}
   }

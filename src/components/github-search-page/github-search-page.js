@@ -1,4 +1,5 @@
 import React, {useState, useEffect, useCallback, useRef} from 'react'
+import {withStyles} from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
@@ -7,14 +8,35 @@ import Grid from '@material-ui/core/Grid'
 import Box from '@material-ui/core/Box'
 import TablePagination from '@material-ui/core/TablePagination'
 import Snackbar from '@material-ui/core/Snackbar'
+import GitHubIcon from '@material-ui/icons/GitHub'
 
 import {Content} from '../content/index'
 import {GithubTable} from '../github-table'
 import {getRepos} from '../../services/index.js'
 
+// initial values variables
 const ROWS_PER_PAGE_DEFAULT = 30
 const INITIAL_CURRENT_PAGE = 0
 const INITIAL_TOTAL_COUNT = 0
+
+// customize material UI styles
+const StyledButton = withStyles(theme => ({
+  root: {
+    color: theme.palette.common.white,
+    backgroundColor: theme.palette.common.black,
+  },
+}))(Button)
+
+const CssTextField = withStyles({
+  root: {
+    '& label.Mui-focused': {
+      color: 'black',
+    },
+    '& .MuiInput-underline:after': {
+      borderBottomColor: 'black',
+    },
+  },
+})(TextField)
 
 export const GithubSearchPage = () => {
   // state
@@ -95,32 +117,38 @@ export const GithubSearchPage = () => {
 
   return (
     <Container>
-      <Box my={12}>
-        <Typography variant="h3" component="h1" color="primary">
-          Github repositories list
+      <Box
+        my={12}
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        flexDirection="row"
+      >
+        <GitHubIcon fontSize="large" />
+        <Typography variant="h3" component="h1" align="center">
+          <Box ml={4}>Github Repositories List </Box>
         </Typography>
       </Box>
 
       <Grid container spacing={2} justify="space-between">
         <Grid item md={6} xs={12}>
-          <TextField
+          <CssTextField
             inputRef={searchByInput}
             fullWidth
             label="Filter by"
             id="filterby"
-          ></TextField>
+          ></CssTextField>
         </Grid>
 
         <Grid item md={3} xs={12}>
-          <Button
+          <StyledButton
             fullWidth
-            color="primary"
-            variant="contained"
             disabled={isSearching}
             onClick={handleClickSearch}
+            variant="contained"
           >
             Search
-          </Button>
+          </StyledButton>
         </Grid>
       </Grid>
 

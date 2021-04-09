@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import Box from '@material-ui/core/Box'
 import Typography from '@material-ui/core/Typography'
 
-// render content: initial message or table
+// render content: table, error message or initial message
 export const Content = ({isSearchApplied, reposList, children}) => {
   const renderWithBox = cb => (
     <Box
@@ -26,7 +26,7 @@ export const Content = ({isSearchApplied, reposList, children}) => {
   }
 
   return renderWithBox(() => (
-    <Typography color="primary">
+    <Typography>
       Please provide a search option and click in the search button
     </Typography>
   ))

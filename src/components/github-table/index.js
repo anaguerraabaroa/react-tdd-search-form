@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {makeStyles} from '@material-ui/core/styles'
+import {withStyles, makeStyles} from '@material-ui/core/styles'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
@@ -9,6 +9,7 @@ import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import Avatar from '@material-ui/core/Avatar'
 import Link from '@material-ui/core/Link'
+import Box from '@material-ui/core/Box'
 
 // tableHeaders array
 const tableHeaders = [
@@ -19,11 +20,26 @@ const tableHeaders = [
   'Updated at',
 ]
 
+// customize material UI styles
 const useStyles = makeStyles({
   container: {
     maxHeight: 440,
   },
 })
+
+const StyledTableCell = withStyles(theme => ({
+  head: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+    textTransform: 'uppercase',
+    fontWeight: 700,
+    textAlign: 'center',
+  },
+  body: {
+    color: theme.palette.common.black,
+    textAlign: 'center',
+  },
+}))(TableCell)
 
 export const GithubTable = ({reposList}) => {
   const classes = useStyles()
@@ -33,7 +49,7 @@ export const GithubTable = ({reposList}) => {
         <TableHead>
           <TableRow>
             {tableHeaders.map(header => (
-              <TableCell key={header}>{header}</TableCell>
+              <StyledTableCell key={header}>{header}</StyledTableCell>
             ))}
           </TableRow>
         </TableHead>
@@ -50,14 +66,22 @@ export const GithubTable = ({reposList}) => {
               owner: {avatar_url: avatarUrl},
             }) => (
               <TableRow key={id}>
-                <TableCell>
-                  <Avatar alt={name} src={avatarUrl} />
-                  <Link href={htmlUrl}>{name}</Link>
-                </TableCell>
-                <TableCell>{stargazersCount}</TableCell>
-                <TableCell>{forksCount}</TableCell>
-                <TableCell>{openIssuesCount}</TableCell>
-                <TableCell>{updatedAt}</TableCell>
+                <StyledTableCell>
+                  <Box
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="center"
+                    flexDirection="column"
+                  >
+                    <Avatar alt={name} src={avatarUrl} />
+                    <Link href={htmlUrl}>{name}</Link>
+                  </Box>
+                </StyledTableCell>
+
+                <StyledTableCell>{stargazersCount}</StyledTableCell>
+                <StyledTableCell>{forksCount}</StyledTableCell>
+                <StyledTableCell>{openIssuesCount}</StyledTableCell>
+                <StyledTableCell>{updatedAt}</StyledTableCell>
               </TableRow>
             ),
           )}
