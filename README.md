@@ -2,6 +2,10 @@
 
 # **TDD Search Form**
 
+This project is part of the
+[**Test Driven Development (TDD) en React JS**](https://www.udemy.com/course/tdd-react-js/?referralCode=F40803D2C4D2934AB038)
+course.
+
 This form has been developed applying Test Driven Development with
 [<img src = "https://img.shields.io/badge/-React-61DAFB?style=for-the-badge&logo=react&logoColor=black">](https://es.reactjs.org/),
 [<img src = "https://img.shields.io/badge/-Jest-C21325?style=for-the-badge&logo=jest&logoColor=white">](https://jestjs.io/),
@@ -9,10 +13,6 @@ This form has been developed applying Test Driven Development with
 [<img src = "https://img.shields.io/badge/-Mock_Service_Worker-E95420?style=for-the-badge">](https://mswjs.io/)
 and
 [<img src = "https://img.shields.io/badge/-Material_UI-0081CB?style=for-the-badge&logo=material-ui&logoColor=white">](https://material-ui.com/)
-
-This exercise is part of the
-[**Test Driven Development (TDD) en React JS**](https://www.udemy.com/course/tdd-react-js/?referralCode=F40803D2C4D2934AB038)
-course.
 
 **NOTE:** a [**mock server**](https://mswjs.io/) and the
 [**Github REST API**](https://docs.github.com/en/rest/overview/resources-in-the-rest-api)
