@@ -41,6 +41,8 @@ npm install
 npm start
 ```
 
+- [**Project URL**](https://anaguerraabaroa.github.io/react-tdd-search-form/) is also available on GitHub Pages.
+
 ### Tests
 
 - Run tests:
