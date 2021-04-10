@@ -15,7 +15,8 @@ This exercise is part of the
 course.
 
 **NOTE:** a [**mock server**](https://mswjs.io/) and the
-[**Github REST API**](https://docs.github.com/en/rest/overview/resources-in-the-rest-api) have been used to develop this exercise.
+[**Github REST API**](https://docs.github.com/en/rest/overview/resources-in-the-rest-api)
+have been used to develop this exercise.
 
 ## **Quick start guide**
 
@@ -41,7 +42,8 @@ npm install
 npm start
 ```
 
-- [**Project URL**](https://anaguerraabaroa.github.io/react-tdd-search-form/) is also available on GitHub Pages.
+- [**Project URL**](https://anaguerraabaroa.github.io/react-tdd-search-form/) is
+  also available on GitHub Pages.
 
 ### Tests
 
@@ -144,7 +146,13 @@ React TDD Search Form
 ├── .env
 ├── .gitignore
 ├── .prettierrc
+├── LICENSE
 ├── package-lock.json
 ├── package.json
 └── README.md
 ```
+
+## **License**
+
+This project is licensed under
+[**MIT License**](https://spdx.org/licenses/MIT.html).
