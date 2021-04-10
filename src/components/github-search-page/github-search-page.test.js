@@ -319,7 +319,7 @@ describe('when the developer types on filter by and does a search', () => {
     // tableCells array
     const [repository] = tableCells
 
-    // array elements
+    // elements array
     expect(repository).toHaveTextContent(expectedRepo.name)
   })
 })

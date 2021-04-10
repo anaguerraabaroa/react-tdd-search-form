@@ -74,9 +74,9 @@ describe('when the developer does a search and selects 50 rows per page', () => 
   }, 6000)
 })
 
-describe('when the developer clicks on search and then on next page button and clicks on search again', () => {
+describe('when the developer clicks on search and then on next page button and then on previous page button', () => {
   // test to validate pagination
-  it('must display the next repositories page', async () => {
+  it('must display the previous repositories page', async () => {
     // config server handler
     server.use(rest.get('/search/repositories', handlerPaginated))
 
