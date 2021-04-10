@@ -62,9 +62,9 @@ of inspiring me to be better professional.
 
 **Acceptance Criteria**
 
-1. - There must be a github repositories list page.
+1. There must be a github repositories list page.
 
-2. - The page should contain the next filters:
+2. The page should contain the next filters:
 
 - An input text with label "filter by" field in order to do the search.
 
@@ -96,7 +96,7 @@ of inspiring me to be better professional.
   })
   ```
 
-3. - The results section should contain:
+3. The results section should contain:
 
 - Before the first search, show the initial state message “Please provide a
   search option and click in the search button”.
@@ -274,7 +274,7 @@ describe('when the developer does a search without results', () => {
 })
 ```
 
-4. - Handling filter:
+4. Handling filter:
 
 - If the developer types "ruby" in the filter by repository name input and
   clicks on search, the app should return repositories with the "ruby" word
@@ -320,7 +320,7 @@ describe('when the developer types on filter by and does a search', () => {
 })
 ```
 
-5. - Size per page:
+5. Size per page:
 
 - If the developer clicks on search button and then selects 50 per page value,
   the app should show 50 repositories on the table
@@ -352,7 +352,7 @@ describe('when the developer does a search and selects 50 rows per page', () => 
 })
 ```
 
-6. - Pagination:
+6. Pagination:
 
 - If the developer clicks on search and then on next page button, the app should
   show the next repositories.
@@ -495,7 +495,7 @@ describe('when the developer does a search and clicks on next page button and se
   })
   ```
 
-7. - Handling errors:
+7. Handling errors:
 
 - If there is an unexpected error from the frontend app, the app should show a
   message “There is an unexpected error” and a reload button.
