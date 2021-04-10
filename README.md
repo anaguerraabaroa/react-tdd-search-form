@@ -53,7 +53,7 @@ npm start
 npm run test
 ```
 
-## **Project features**
+## **Features and usage**
 
 **Github Repositories List**
 
