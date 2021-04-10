@@ -66,8 +66,9 @@ of inspiring me to be better professional.
 
 - The page should contain the next filters:
 
-  - An input text with label "filter by" field in order to do the search.
-  - The Search Button.
+- An input text with label "filter by" field in order to do the search.
+
+- The Search Button.
 
   ```javascript
   describe('when the GithubSearchPage is mounted', () => {
@@ -96,21 +97,32 @@ of inspiring me to be better professional.
   ```
 
 - The results section should contain:
-  - Before the first search, show the initial state message “Please provide a
-    search option and click in the search button”.
-  - The search button should be disabled until the search is done.
-  - The data should be displayed as a sticky table.
-  - The header table should contain: Repository, stars, forks, open issues and
-    updated at
-  - Each result should have: owner avatar image, name, stars, updated at, forks,
-    open issues. It should have a link that opens in a new tab the github
-    repository selected.
-  - Total results number of the search and the current number of results.
-    Example: 1-10 of 100.
-  - A results size per page select/combobox with the options: 30, 50, 100. The
-    default is 30.
-  - Next and previous pagination when the context applies to them, example: on
-    the first page, the previous page should be disabled.
+
+- Before the first search, show the initial state message “Please provide a
+  search option and click in the search button”.
+
+- The search button should be disabled until the search is done.
+
+- The data should be displayed as a sticky table.
+
+- The header table should contain: Repository, stars, forks, open issues and
+  updated at
+
+- Each result should have: owner avatar image, name, stars, updated at, forks,
+  open issues. It should have a link that opens in a new tab the github
+  repository selected.
+
+- Total results number of the search and the current number of results. Example:
+  1-10 of 100.
+
+- A results size per page select/combobox with the options: 30, 50, 100. The
+  default is 30.
+
+- Next and previous pagination when the context applies to them, example: on the
+  first page, the previous page should be disabled.
+
+- If there is no results, then show a empty state message “You search has no
+  results”
 
 ```javascript
 describe('when the developer does a search', () => {
@@ -263,9 +275,10 @@ describe('when the developer does a search without results', () => {
 ```
 
 - Handling filter:
-  - If the developer types "ruby" in the filter by repository name input and
-    clicks on search, the app should return repositories with the "ruby" word
-    associated.
+
+- If the developer types "ruby" in the filter by repository name input and
+  clicks on search, the app should return repositories with the "ruby" word
+  associated.
 
 ```javascript
 describe('when the developer types on filter by and does a search', () => {
@@ -309,8 +322,8 @@ describe('when the developer types on filter by and does a search', () => {
 
 - Size per page:
 
-  - If the developer clicks on search button and then selects 50 per page value,
-    the app should show 50 repositories on the table
+- If the developer clicks on search button and then selects 50 per page value,
+  the app should show 50 repositories on the table
 
 ```javascript
 describe('when the developer does a search and selects 50 rows per page', () => {
@@ -341,8 +354,8 @@ describe('when the developer does a search and selects 50 rows per page', () => 
 
 - Pagination:
 
-  - If the developer clicks on search and then on next page button, the app
-    should show the next repositories.
+- If the developer clicks on search and then on next page button, the app should
+  show the next repositories.
 
 ```javascript
 describe('when the developer does a search and clicks on next page button and selects 50 rows per page', () => {
@@ -483,8 +496,9 @@ describe('when the developer does a search and clicks on next page button and se
   ```
 
 - Handling errors:
-  - If there is an unexpected error from the frontend app, the app should show a
-    message “There is an unexpected error” and a reload button.
+
+- If there is an unexpected error from the frontend app, the app should show a
+  message “There is an unexpected error” and a reload button.
 
 ```javascript
 describe('when there is an unprocessable entity from the backend', () => {
