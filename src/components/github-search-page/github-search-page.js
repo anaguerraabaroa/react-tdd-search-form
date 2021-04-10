@@ -126,8 +126,9 @@ export const GithubSearchPage = () => {
       >
         <GitHubIcon fontSize="large" />
         <Typography variant="h3" component="h1" align="center">
-          <Box ml={4}>Github Repositories List </Box>
+          <Box m={4}>Github Repositories List </Box>
         </Typography>
+        <GitHubIcon fontSize="large" />
       </Box>
 
       <Grid container spacing={2} justify="space-between">
