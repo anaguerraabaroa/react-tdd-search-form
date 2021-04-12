@@ -1,6 +1,6 @@
 ![Form](./src/images/form.png)
 
-# **TDD Search Form**
+# **TDD Search Form with Filters**
 
 ## **About**
 
