@@ -8,7 +8,7 @@ export const handlerPaginated = (req, res, ctx) =>
     ctx.json({
       ...makeFakeResponse({totalCount: 1000}),
       items: getReposPerPage({
-        perPage: parseInt(req.url.searchParams.get('per_page')),
+        perPage: Number(req.url.searchParams.get('per_page')),
         currentPage: req.url.searchParams.get('page'),
       }),
     }),

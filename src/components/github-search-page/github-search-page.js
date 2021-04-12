@@ -12,7 +12,7 @@ import Snackbar from '@material-ui/core/Snackbar'
 
 import {Content} from '../content/index'
 import {GithubTable} from '../github-table'
-import {getRepos} from '../../services/index.js'
+import {getRepos} from '../../services'
 
 // initial values variables
 const ROWS_PER_PAGE_DEFAULT = 30
@@ -138,7 +138,7 @@ export const GithubSearchPage = () => {
             fullWidth
             label="Filter by"
             id="filterby"
-          ></CssTextField>
+          />
         </Grid>
 
         <Grid item md={3} xs={12}>
